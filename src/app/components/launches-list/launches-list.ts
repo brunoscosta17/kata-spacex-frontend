@@ -9,6 +9,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Launch } from '../../state/launch.model';
 
 
 @Component({
@@ -18,14 +19,13 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './launches-list.html'
 })
 export class LaunchesListComponent implements OnInit {
-  allLaunches: any[] = [];
-  filteredLaunches: any[] = [];
+  allLaunches: Launch[] = [];
+  filteredLaunches: Launch[] = [];
   searchTerm: string = '';
-  
-  private sub! : Subscription; 
 
-  constructor(private spacexService: SpacexService) {}
+  private sub!: Subscription;
 
+  constructor(private spacexService: SpacexService) { }
 
   ngOnInit(): void {
     this.loadLaunches();
@@ -38,9 +38,9 @@ export class LaunchesListComponent implements OnInit {
     });
   }
 
-  onSearchChange() {    
-    this.filteredLaunches = this.allLaunches.filter(launch => 
-      launch.name.includes(this.searchTerm)
+  onSearchChange() {
+    this.filteredLaunches = this.allLaunches.filter(launch =>
+      launch.name.includes(this.searchTerm.toLowerCase())
     );
   }
 }

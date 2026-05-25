@@ -1,8 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import * as LaunchActions from './launch.actions';
+import { Launch } from './launch.model';
 
 export interface LaunchState {
-  launches: any[];
+  launches: Launch[];
   favoriteIds: string[];
   loading: boolean;
   error: any;
