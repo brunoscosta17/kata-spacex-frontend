@@ -21,4 +21,11 @@ export const launchReducer = createReducer(
   on(LaunchActions.loadLaunches, state => ({ ...state, loading: true })),
   on(LaunchActions.loadLaunchesSuccess, (state, { launches }) => ({ ...state, loading: false, launches })),
   on(LaunchActions.loadLaunchesFailure, (state, { error }) => ({ ...state, loading: false, error })),
+  on(LaunchActions.toggleFavorite, (state, { id }) => {
+    const isFavorite = state.favoriteIds.includes(id);
+    const favoriteIds = isFavorite
+      ? state.favoriteIds.filter(favId => favId !== id)
+      : [...state.favoriteIds, id];
+    return { ...state, favoriteIds };
+  })
 );

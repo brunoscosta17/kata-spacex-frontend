@@ -4,19 +4,14 @@
 
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search for a mission...</mat-label>
-    <input 
-      matInput
-      type="text" 
-      [(ngModel)]="searchTerm" 
-      (ngModelChange)="onSearchChange()" 
-      placeholder="Ex. Crew-1"
-    />
+    <input matInput type="text" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm.set($event)"
+      placeholder="Ex. Crew-1" />
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 
 
   <div class="launches-grid">
-    <mat-card *ngFor="let launch of filteredLaunches" class="launch-card">
+    <mat-card *ngFor="let launch of filteredLaunches()" class="launch-card">
       <mat-card-header>
         <img mat-card-avatar [src]="launch.links?.patch?.small" alt="Mission's patch">
         <mat-card-title>{{ launch.name }}</mat-card-title>
@@ -36,6 +31,9 @@
             {{ launch.success ? 'Success' : 'Failure' }}
           </mat-chip>
         </mat-chip-set>
+        <button mat-icon-button (click)="toggleFavorite(launch.id); $event.stopPropagation()" color="warn">
+          <mat-icon>{{ isFavorite(launch.id) ? 'star' : 'star_border' }}</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

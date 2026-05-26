@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -10,9 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Launch } from '../../state/launch.model';
 import { Store } from '@ngrx/store';
-import { selectAllLaunches } from '../../state/launch.selectors';
+import { selectAllLaunches, selectFavoriteIds } from '../../state/launch.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { loadLaunches } from '../../state/launch.actions';
+import { loadLaunches, toggleFavorite } from '../../state/launch.actions';
 
 
 @Component({
@@ -22,27 +21,29 @@ import { loadLaunches } from '../../state/launch.actions';
   templateUrl: './launches-list.html'
 })
 export class LaunchesListComponent implements OnInit {
-  allLaunches: Launch[] = [];
-  filteredLaunches: Launch[] = [];
-  searchTerm: string = '';
 
-  constructor(private store: Store) {
-    this.store.select(selectAllLaunches).pipe(
-      takeUntilDestroyed()
-    ).subscribe(launches => {
-      this.allLaunches = launches;
-      this.filteredLaunches = launches;
-      this.onSearchChange();
-    });
-  }
+  private store = inject(Store);
+
+  allLaunches = this.store.selectSignal(selectAllLaunches);
+  favoriteIds = this.store.selectSignal(selectFavoriteIds);
+  searchTerm = signal('');
+
+  filteredLaunches = computed(() => {
+    const launches = this.allLaunches();
+    const search = this.searchTerm().toLowerCase();
+    return launches.filter(launch => launch.name.toLowerCase().includes(search));
+  });
+
 
   ngOnInit(): void {
     this.store.dispatch(loadLaunches());
   }
 
-  onSearchChange() {
-    this.filteredLaunches = this.allLaunches.filter(launch =>
-      launch.name.includes(this.searchTerm.toLowerCase())
-    );
+  isFavorite(id: string): boolean {
+    return this.favoriteIds().includes(id);
+  }
+
+  toggleFavorite(id: string) {
+    this.store.dispatch(toggleFavorite({ id }));
   }
 }
