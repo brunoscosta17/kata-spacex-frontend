@@ -1,17 +1,34 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { LaunchDetail } from "./launch-detail";
+import { provideStore } from '@ngrx/store';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+import { launchReducer } from '../../state/launch.reducer';
+import { LaunchDetailComponent } from "./launch-detail";
 
 describe("LaunchDetail", () => {
-  let component: LaunchDetail;
-  let fixture: ComponentFixture<LaunchDetail>;
+  let component: LaunchDetailComponent;
+  let fixture: ComponentFixture<LaunchDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LaunchDetail],
+      imports: [LaunchDetailComponent],
+      providers: [
+        provideStore({ launch: launchReducer }),
+        provideNoopAnimations(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              paramMap: {
+                get: (key: string) => key === 'id' ? '123' : null
+              }
+            }
+          }
+        }
+      ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LaunchDetail);
+    fixture = TestBed.createComponent(LaunchDetailComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

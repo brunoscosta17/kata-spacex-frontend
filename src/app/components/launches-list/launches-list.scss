@@ -1,11 +1,9 @@
-// ─── Container Principal ───
 .container-launches {
   padding: 40px 24px;
   max-width: 1280px;
   margin: 0 auto;
 }
 
-// ─── Hero Section ───
 .hero-section {
   text-align: center;
   margin-bottom: 48px;
@@ -15,11 +13,7 @@
     font-weight: 800;
     letter-spacing: -1px;
     margin-bottom: 12px;
-    background: linear-gradient(135deg, #a082ff 0%, #00f0ff 50%, #a082ff 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientShift 5s ease infinite;
+    color: var(--sx-accent);
   }
 
   .subtitle {
@@ -33,12 +27,19 @@
 }
 
 @keyframes gradientShift {
-  0%   { background-position: 0% center; }
-  50%  { background-position: 100% center; }
-  100% { background-position: 0% center; }
+  0% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
 }
 
-// ─── Search and Filter Bar Layout ───
 .search-filter-bar {
   display: flex;
   flex-direction: column;
@@ -66,7 +67,6 @@
   }
 }
 
-// ─── Custom cosmic Filter Chips ───
 .filter-chips {
   display: flex;
   flex-wrap: wrap;
@@ -125,14 +125,12 @@
   }
 }
 
-// ─── Grid de Cards ───
 .launches-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 28px;
 }
 
-// ─── Card Individual (Glassmorphism + Animations) ───
 .launch-card {
   display: flex;
   flex-direction: column;
@@ -144,10 +142,9 @@
   backdrop-filter: blur(16px);
   padding: 8px 0;
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              border-color 0.3s ease;
+    box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    border-color 0.3s ease;
 
-  // Entrada com efeito cascata suave
   animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   &:hover {
@@ -158,6 +155,7 @@
     .mission-patch-avatar {
       transform: scale(1.06) rotate(3deg);
     }
+
     .mission-patch-placeholder {
       transform: scale(1.06) rotate(-3deg);
       background: rgba(124, 92, 252, 0.15);
@@ -171,13 +169,13 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-// ─── Avatares de Patches ───
 .mission-patch-avatar {
   border-radius: 12px !important;
   padding: 4px;
@@ -203,7 +201,6 @@
   }
 }
 
-// ─── Conteúdo do Card ───
 .card-content {
   padding: 16px 24px 8px 24px;
 }
@@ -224,7 +221,6 @@
   }
 }
 
-// ─── Ações do Card ───
 .card-actions {
   display: flex;
   justify-content: space-between;
@@ -232,7 +228,6 @@
   padding: 8px 24px 16px 24px;
 }
 
-// Status Badges (Dot-style)
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -278,12 +273,19 @@
 }
 
 @keyframes pulseGreen {
-  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
-  70% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(76, 175, 80, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
 }
 
-// Botão Favoritar Customizado
 .favorite-btn {
   color: var(--sx-text-secondary) !important;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
@@ -301,12 +303,19 @@
 }
 
 @keyframes bounce {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.3); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
-// ─── Estado Vazio ───
 .empty-state {
   text-align: center;
   padding: 60px 24px;

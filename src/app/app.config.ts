@@ -6,7 +6,7 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
-import { launchReducer } from './state/launch.reducer';
+import { launchReducer, metaReducers } from './state/launch.reducer';
 import { LaunchEffects } from './state/launch.effects';
 import { routes } from './app.routes';
 
@@ -14,9 +14,10 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
-    
-    provideStore({ launch: launchReducer }),
-    
+
+    // Registramos o metaReducer aqui para que ele intercepte todas as actions
+    provideStore({ launch: launchReducer }, { metaReducers }),
+
     provideEffects([LaunchEffects]),
 
     provideStoreDevtools({
