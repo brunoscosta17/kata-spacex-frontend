@@ -6,3 +6,7 @@ export const selectLaunchState = createFeatureSelector<LaunchState>('launch');
 export const selectAllLaunches = createSelector(selectLaunchState, state => state.launches);
 export const selectIsLoading = createSelector(selectLaunchState, state => state.loading);
 export const selectFavoriteIds = createSelector(selectLaunchState, state => state.favoriteIds);
+export const selectLaunchById = (id: string) => createSelector(
+    selectAllLaunches,
+    (launches) => launches.find(launch => launch.id === id) ?? null
+);

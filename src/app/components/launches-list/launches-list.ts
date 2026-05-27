@@ -7,22 +7,22 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Launch } from '../../state/launch.model';
 import { Store } from '@ngrx/store';
 import { selectAllLaunches, selectFavoriteIds } from '../../state/launch.selectors';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { loadLaunches, toggleFavorite } from '../../state/launch.actions';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-launches-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatChipsModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatChipsModule, MatButtonModule, RouterModule],
   templateUrl: './launches-list.html'
 })
 export class LaunchesListComponent implements OnInit {
 
   private store = inject(Store);
+  private router = inject(Router);
 
   allLaunches = this.store.selectSignal(selectAllLaunches);
   favoriteIds = this.store.selectSignal(selectFavoriteIds);

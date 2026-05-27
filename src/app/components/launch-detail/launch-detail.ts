@@ -31,20 +31,15 @@ export class LaunchDetailComponent implements OnInit {
   private router = inject(Router);
   private store = inject(Store);
 
-  // Lê o :id da URL de forma síncrona
   private launchId = this.route.snapshot.paramMap.get('id') ?? '';
 
-  // Seletor parametrizado: encontra o lançamento pelo ID dentro da Store
   launch = this.store.selectSignal(selectLaunchById(this.launchId));
 
-  // Seletor de favoritos para verificar o estado da estrela em tempo real
   favoriteIds = this.store.selectSignal(selectFavoriteIds);
 
-  // Signal computado: derivado dos dois sinais acima - recalcula automaticamente se mudar
   isFavorite = computed(() => this.favoriteIds().includes(this.launchId));
 
   ngOnInit(): void {
-    // Segurança: se o ID for inválido ou a store ainda estiver vazia, redireciona para a lista
     if (!this.launchId) {
       this.router.navigate(['/']);
     }
