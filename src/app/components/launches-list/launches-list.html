@@ -1,16 +1,53 @@
 <div class="container-launches">
-  <h1 class="mat-headline-medium title">SpaceX Launch Explorer</h1>
+  
+  <header class="hero-section">
+    <h1 class="title">SpaceX Launch Explorer</h1>
+    <p class="subtitle">Explore historical rocket launches, analyze deep flight specs, and review mission photography</p>
+  </header>
 
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Search for a mission...</mat-label>
-    <input matInput type="text" [formControl]="searchControl" placeholder="Ex. Crew-1" />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <div class="search-filter-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search mission name...</mat-label>
+      <input matInput type="text" [formControl]="searchControl" placeholder="Ex. Crew-1" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <!-- Barra de Filtros Customizada Cósmica -->
+    <div class="filter-chips">
+      <button mat-flat-button class="filter-chip" [class.active]="filterType() === 'all'" (click)="setFilter('all')">
+        <mat-icon>rocket_launch</mat-icon> All Missions
+      </button>
+      <button mat-flat-button class="filter-chip favorites-chip" [class.active]="filterType() === 'favorites'" (click)="setFilter('favorites')">
+        <mat-icon>star</mat-icon> Favorites ({{ favoriteIds().length }})
+      </button>
+      <button mat-flat-button class="filter-chip success-chip" [class.active]="filterType() === 'success'" (click)="setFilter('success')">
+        <mat-icon>check_circle</mat-icon> Success
+      </button>
+      <button mat-flat-button class="filter-chip error-chip" [class.active]="filterType() === 'failed'" (click)="setFilter('failed')">
+        <mat-icon>cancel</mat-icon> Failed
+      </button>
+    </div>
+  </div>
+
+  <!-- Estado Vazio Amigável -->
+  @if (filteredLaunches().length === 0) {
+    <div class="empty-state">
+      <mat-icon>search_off</mat-icon>
+      <h3>No Missions Found</h3>
+      <p>We couldn't find any launches matching your search query or selected category filter.</p>
+    </div>
+  }
 
   <div class="launches-grid">
     <mat-card *ngFor="let launch of filteredLaunches()" class="launch-card" [routerLink]="['/launch', launch.id]">
       <mat-card-header>
-        <img mat-card-avatar [src]="launch.links?.patch?.small" alt="Mission's patch">
+        @if (launch.links?.patch?.small) {
+          <img mat-card-avatar [src]="launch.links!.patch!.small" alt="Mission patch" class="mission-patch-avatar">
+        } @else {
+          <div mat-card-avatar class="mission-patch-placeholder">
+            <mat-icon>rocket</mat-icon>
+          </div>
+        }
         <mat-card-title>{{ launch.name }}</mat-card-title>
         <mat-card-subtitle>Flight n°{{ launch.flight_number }}</mat-card-subtitle>
       </mat-card-header>
@@ -23,12 +60,11 @@
       </mat-card-content>
 
       <mat-card-actions class="card-actions">
-        <mat-chip-set>
-          <mat-chip [class.status-success]="launch.success" [class.status-error]="!launch.success">
-            {{ launch.success ? 'Success' : 'Failure' }}
-          </mat-chip>
-        </mat-chip-set>
-        <button mat-icon-button (click)="toggleFavorite(launch.id); $event.stopPropagation()" color="warn">
+        <span class="status-badge" [class.status-success]="launch.success" [class.status-error]="!launch.success">
+          <span class="status-dot"></span>
+          {{ launch.success ? 'Success' : 'Failure' }}
+        </span>
+        <button mat-icon-button (click)="toggleFavorite(launch.id); $event.stopPropagation()" class="favorite-btn" [class.is-favorite]="isFavorite(launch.id)">
           <mat-icon>{{ isFavorite(launch.id) ? 'star' : 'star_border' }}</mat-icon>
         </button>
       </mat-card-actions>

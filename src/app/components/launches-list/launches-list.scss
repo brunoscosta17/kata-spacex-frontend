@@ -1,50 +1,138 @@
+// ─── Container Principal ───
 .container-launches {
-  padding: 32px 24px;
+  padding: 40px 24px;
   max-width: 1280px;
   margin: 0 auto;
 }
 
-.title {
+// ─── Hero Section ───
+.hero-section {
   text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 32px;
-  background: linear-gradient(135deg, #7c5cfc 0%, #00bcd4 50%, #7c5cfc 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 4s ease infinite;
+  margin-bottom: 48px;
+
+  .title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #a082ff 0%, #00f0ff 50%, #a082ff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease infinite;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--sx-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 400;
+  }
 }
 
 @keyframes gradientShift {
-  0% {
-    background-position: 0% center;
-  }
+  0%   { background-position: 0% center; }
+  50%  { background-position: 100% center; }
+  100% { background-position: 0% center; }
+}
 
-  50% {
-    background-position: 100% center;
-  }
+// ─── Search and Filter Bar Layout ───
+.search-filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
 
-  100% {
-    background-position: 0% center;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 
 .search-field {
   width: 100%;
-  margin-bottom: 32px;
+  margin-bottom: 0 !important;
+
+  @media (min-width: 768px) {
+    max-width: 400px;
+  }
 
   .mdc-text-field--outlined {
     border-radius: var(--sx-radius) !important;
+    background: rgba(255, 255, 255, 0.02);
   }
 }
 
+// ─── Custom cosmic Filter Chips ───
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .filter-chip {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid var(--sx-border) !important;
+    border-radius: 20px !important;
+    color: var(--sx-text-secondary) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 6px 16px !important;
+    height: auto !important;
+    min-height: 38px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+      vertical-align: middle;
+      color: var(--sx-text-secondary);
+      transition: color 0.3s ease;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--sx-text-primary) !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    &.active {
+      background: var(--sx-accent) !important;
+      color: #ffffff !important;
+      border-color: var(--sx-accent) !important;
+      box-shadow: 0 4px 15px var(--sx-accent-glow);
+
+      mat-icon {
+        color: #ffffff !important;
+      }
+    }
+
+    &.success-chip.active {
+      background: var(--sx-success) !important;
+      border-color: var(--sx-success) !important;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    &.error-chip.active {
+      background: var(--sx-error) !important;
+      border-color: var(--sx-error) !important;
+      box-shadow: 0 4px 15px rgba(239, 83, 80, 0.3);
+    }
+  }
+}
+
+// ─── Grid de Cards ───
 .launches-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  gap: 28px;
 }
 
+// ─── Card Individual (Glassmorphism + Animations) ───
 .launch-card {
   display: flex;
   flex-direction: column;
@@ -53,34 +141,71 @@
   background: var(--sx-bg-card) !important;
   border: 1px solid var(--sx-border);
   border-radius: var(--sx-radius) !important;
-  backdrop-filter: blur(12px);
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    box-shadow 0.3s ease,
-    border-color 0.3s ease;
+  backdrop-filter: blur(16px);
+  padding: 8px 0;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.3s ease;
 
-  animation: cardFadeIn 0.5s ease both;
+  // Entrada com efeito cascata suave
+  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   &:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 12px 40px var(--sx-accent-glow);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 36px var(--sx-accent-glow);
     border-color: var(--sx-accent);
+
+    .mission-patch-avatar {
+      transform: scale(1.06) rotate(3deg);
+    }
+    .mission-patch-placeholder {
+      transform: scale(1.06) rotate(-3deg);
+      background: rgba(124, 92, 252, 0.15);
+      border-color: var(--sx-accent);
+    }
   }
 }
 
 @keyframes cardFadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+// ─── Avatares de Patches ───
+.mission-patch-avatar {
+  border-radius: 12px !important;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.mission-patch-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--sx-border);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: var(--sx-accent);
+  }
+}
+
+// ─── Conteúdo do Card ───
 .card-content {
-  padding-top: 16px;
+  padding: 16px 24px 8px 24px;
 }
 
 .date-text {
@@ -89,18 +214,126 @@
   gap: 8px;
   color: var(--sx-text-secondary);
   font-size: 14px;
+  margin: 0;
 
   mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
     color: var(--sx-accent);
   }
 }
 
+// ─── Ações do Card ───
 .card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
+  padding: 8px 24px 16px 24px;
+}
+
+// Status Badges (Dot-style)
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--sx-border);
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  &.status-success {
+    color: var(--sx-success);
+    border-color: rgba(76, 175, 80, 0.2);
+    background: rgba(76, 175, 80, 0.05);
+
+    .status-dot {
+      background: var(--sx-success);
+      box-shadow: 0 0 8px var(--sx-success);
+      animation: pulseGreen 2s infinite;
+    }
+  }
+
+  &.status-error {
+    color: var(--sx-error);
+    border-color: rgba(239, 83, 80, 0.2);
+    background: rgba(239, 83, 80, 0.05);
+
+    .status-dot {
+      background: var(--sx-error);
+      box-shadow: 0 0 8px var(--sx-error);
+    }
+  }
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+// Botão Favoritar Customizado
+.favorite-btn {
+  color: var(--sx-text-secondary) !important;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+
+  &:hover {
+    color: #ffb100 !important;
+    transform: scale(1.15);
+  }
+
+  &.is-favorite {
+    color: #ffb100 !important;
+    text-shadow: 0 0 10px rgba(255, 177, 0, 0.4);
+    animation: bounce 0.4s ease-out;
+  }
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+// ─── Estado Vazio ───
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  background: var(--sx-bg-card);
+  border: 1px dashed var(--sx-border);
+  border-radius: var(--sx-radius);
+  max-width: 600px;
+  margin: 40px auto;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--sx-text-secondary);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--sx-text-primary);
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--sx-text-secondary);
+    font-size: 1rem;
+    margin: 0;
+  }
 }

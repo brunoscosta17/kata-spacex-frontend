@@ -1,106 +1,157 @@
 <div class="detail-container">
 
-    <div class="detail-header">
-        <button mat-button (click)="goBack()">
-            <mat-icon>arrow_back</mat-icon>
-            Back to Missions
-        </button>
-    </div>
+  <!-- Botão de Voltar -->
+  <div class="detail-header">
+    <button mat-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Missions
+    </button>
+  </div>
 
-    @if (launch(); as l) {
+  <!-- Guarda de segurança: só renderiza se o lançamento existir na store -->
+  @if (launch(); as l) {
 
     <mat-card class="detail-card">
-        <mat-card-header>
+      
+      <!-- Top Space Banner Estilizado -->
+      <div class="detail-hero-banner">
+        <div class="banner-gradient"></div>
+      </div>
 
+      <div class="detail-layout-grid">
+        
+        <!-- COLUNA DA ESQUERDA: Identidade e Links Rápidos -->
+        <div class="column-left">
+          <div class="patch-container">
             @if (l.links?.patch?.large) {
-            <img mat-card-avatar [src]="l.links!.patch!.large" alt="Mission patch" class="mission-patch-large">
+              <img [src]="l.links!.patch!.large" alt="Mission patch" class="mission-patch-large">
+            } @else {
+              <div class="mission-patch-placeholder-large">
+                <mat-icon>rocket_launch</mat-icon>
+              </div>
             }
+          </div>
 
-            <mat-card-title>{{ l.name }}</mat-card-title>
-            <mat-card-subtitle>Flight n° {{ l.flight_number }}</mat-card-subtitle>
+          <div class="mission-identity">
+            <h1 class="mission-name">{{ l.name }}</h1>
+            <p class="mission-flight">Flight n° {{ l.flight_number }}</p>
+          </div>
 
-            <button mat-icon-button color="warn" class="favorite-btn" (click)="toggleFavorite()">
-                <mat-icon>{{ isFavorite() ? 'star' : 'star_border' }}</mat-icon>
+          <div class="favorite-toggle-box">
+            <button mat-flat-button class="toggle-fav-btn" [class.is-favorite]="isFavorite()" (click)="toggleFavorite()">
+              <mat-icon>{{ isFavorite() ? 'star' : 'star_border' }}</mat-icon>
+              {{ isFavorite() ? 'Saved to Favorites' : 'Add to Favorites' }}
             </button>
+          </div>
 
-        </mat-card-header>
+          <div class="status-box">
+            <span class="status-badge" [class.status-success]="l.success" [class.status-error]="!l.success">
+              <span class="status-dot"></span>
+              {{ l.success ? '✓ Mission Success' : '✗ Mission Failure' }}
+            </span>
+          </div>
 
-        <mat-card-content class="detail-content">
-
-            <div class="status-row">
-                <mat-chip [class.status-success]="l.success" [class.status-error]="!l.success">
-                    {{ l.success ? '✓ Mission Success' : '✗ Mission Failure' }}
-                </mat-chip>
-                <span class="date-info">
-                    <mat-icon>calendar_today</mat-icon>
-                    {{ l.date_local | date:'dd/MM/yyyy' }}
-                </span>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            <div class="specs-grid">
-                <div class="spec-item">
-                    <span class="spec-label">Rocket ID</span>
-                    <span class="spec-value">{{ l.rocket || 'N/A' }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">Upcoming</span>
-                    <span class="spec-value">{{ l.upcoming ? 'Yes' : 'No' }}</span>
-                </div>
-                <div class="spec-item">
-                    <span class="spec-label">UTC Date</span>
-                    <span class="spec-value">{{ l.date_utc | date:'medium' }}</span>
-                </div>
-            </div>
-
-            <mat-divider></mat-divider>
-
-            @if (l.details) {
-            <div class="mission-details">
-                <h3>Mission Details</h3>
-                <p>{{ l.details }}</p>
-            </div>
-            }
-
-            <div class="external-links">
+          <!-- Links de Ação Rápida -->
+          @if (l.links?.webcast || l.links?.wikipedia || l.links?.article) {
+            <div class="quick-links-card">
+              <h3>Quick Actions</h3>
+              <div class="links-list">
                 @if (l.links?.webcast) {
-                <a mat-stroked-button [href]="l.links!.webcast" target="_blank" rel="noopener">
+                  <a mat-stroked-button [href]="l.links!.webcast" target="_blank" rel="noopener" class="action-link-btn">
                     <mat-icon>play_circle</mat-icon> Watch Webcast
-                </a>
+                  </a>
                 }
                 @if (l.links?.wikipedia) {
-                <a mat-stroked-button [href]="l.links!.wikipedia" target="_blank" rel="noopener">
+                  <a mat-stroked-button [href]="l.links!.wikipedia" target="_blank" rel="noopener" class="action-link-btn">
                     <mat-icon>open_in_new</mat-icon> Wikipedia
-                </a>
+                  </a>
                 }
                 @if (l.links?.article) {
-                <a mat-stroked-button [href]="l.links!.article" target="_blank" rel="noopener">
+                  <a mat-stroked-button [href]="l.links!.article" target="_blank" rel="noopener" class="action-link-btn">
                     <mat-icon>article</mat-icon> Press Article
-                </a>
+                  </a>
                 }
+              </div>
             </div>
+          }
+        </div>
 
+        <!-- COLUNA DA DIREITA: Informações Técnicas e Descrição -->
+        <div class="column-right">
+          
+          <!-- Grid de Especificações -->
+          <div class="section-container">
+            <h2 class="section-title"><mat-icon>tune</mat-icon> Technical Specifications</h2>
+            <div class="specs-grid">
+              <div class="spec-card">
+                <span class="spec-label">Rocket Identifier</span>
+                <span class="spec-value">{{ l.rocket || 'N/A' }}</span>
+              </div>
+              <div class="spec-card">
+                <span class="spec-label">Launch Status</span>
+                <span class="spec-value">{{ l.upcoming ? 'Upcoming' : 'Past Launch' }}</span>
+              </div>
+              <div class="spec-card">
+                <span class="spec-label">Launch Date</span>
+                <span class="spec-value">{{ l.date_local | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <div class="spec-card">
+                <span class="spec-label">Launch Time (UTC)</span>
+                <span class="spec-value">{{ l.date_utc | date:'mediumTime' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detalhes da Missão -->
+          @if (l.details) {
+            <div class="section-container">
+              <h2 class="section-title"><mat-icon>description</mat-icon> Mission Telemetry Details</h2>
+              <div class="mission-details-box">
+                <p>{{ l.details }}</p>
+              </div>
+            </div>
+          } @else {
+            <div class="section-container">
+              <h2 class="section-title"><mat-icon>description</mat-icon> Mission Telemetry Details</h2>
+              <div class="mission-details-box empty-details">
+                <p>No telemetry log text is registered for this flight launch mission.</p>
+              </div>
+            </div>
+          }
+
+          <!-- Flickr Gallery -->
+          <div class="section-container">
+            <h2 class="section-title"><mat-icon>photo_library</mat-icon> Flight Photography</h2>
+            
             @if (l.links?.flickr?.original && l.links!.flickr!.original.length > 0) {
-            <div class="flickr-gallery">
-                <h3>Mission Gallery</h3>
-                <div class="gallery-grid">
-                    @for (photo of l.links!.flickr!.original; track photo) {
+              <div class="gallery-grid">
+                @for (photo of l.links!.flickr!.original; track photo) {
+                  <div class="gallery-img-wrapper">
                     <img [src]="photo" [alt]="l.name + ' photo'" class="gallery-img">
-                    }
-                </div>
-            </div>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="gallery-empty-state">
+                <mat-icon>no_photography</mat-icon>
+                <p>No historical flight photography is available for this launch mission.</p>
+              </div>
             }
+          </div>
 
-        </mat-card-content>
+        </div>
+
+      </div>
     </mat-card>
 
-    } @else {
+  } @else {
+    <!-- Estado de carregamento se o usuário acessar a URL diretamente -->
     <div class="loading-state">
-        <mat-icon>rocket_launch</mat-icon>
-        <p>Loading mission data... or navigate back to the list first.</p>
-        <button mat-flat-button color="primary" (click)="goBack()">Go to Missions List</button>
+      <mat-icon>rocket_launch</mat-icon>
+      <h3>Loading Flight Data</h3>
+      <p>Consulting SpaceX database for mission telemetry logs...</p>
+      <button mat-flat-button color="primary" (click)="goBack()">Go to Missions List</button>
     </div>
-    }
+  }
 
 </div>

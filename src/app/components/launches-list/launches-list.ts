@@ -19,7 +19,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-launches-list',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatChipsModule, MatButtonModule, RouterModule],
-  templateUrl: './launches-list.html'
+  templateUrl: './launches-list.html',
+  styleUrl: './launches-list.scss'
 })
 export class LaunchesListComponent implements OnInit {
 
@@ -28,12 +29,26 @@ export class LaunchesListComponent implements OnInit {
   allLaunches = this.store.selectSignal(selectAllLaunches);
   favoriteIds = this.store.selectSignal(selectFavoriteIds);
   searchTerm = signal('');
+  filterType = signal<'all' | 'favorites' | 'success' | 'failed'>('all');
 
   searchControl = new FormControl('');
 
   filteredLaunches = computed(() => {
-    const launches = this.allLaunches();
-    const search = this.searchTerm().toLowerCase();
+    let launches = this.allLaunches();
+    
+    // 1. Filtragem por categoria
+    const currentFilter = this.filterType();
+    if (currentFilter === 'favorites') {
+      const favs = this.favoriteIds();
+      launches = launches.filter(l => favs.includes(l.id));
+    } else if (currentFilter === 'success') {
+      launches = launches.filter(l => l.success === true);
+    } else if (currentFilter === 'failed') {
+      launches = launches.filter(l => l.success === false);
+    }
+
+    // 2. Filtragem por busca de texto
+    const search = this.searchTerm().toLowerCase().trim();
     if (!search) return launches;
     return launches.filter(launch => launch.name.toLowerCase().includes(search));
   });
@@ -50,6 +65,10 @@ export class LaunchesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadLaunches());
+  }
+
+  setFilter(type: 'all' | 'favorites' | 'success' | 'failed'): void {
+    this.filterType.set(type);
   }
 
   isFavorite(id: string): boolean {

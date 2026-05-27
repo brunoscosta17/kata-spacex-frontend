@@ -24,7 +24,8 @@ import { RouterModule } from '@angular/router';
     MatDividerModule,
     RouterModule
   ],
-  templateUrl: './launch-detail.html'
+  templateUrl: './launch-detail.html',
+  styleUrl: './launch-detail.scss'
 })
 export class LaunchDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
