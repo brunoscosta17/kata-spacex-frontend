@@ -1,18 +1,14 @@
 <div class="container-launches">
   <h1 class="mat-headline-medium title">SpaceX Launch Explorer</h1>
 
-
   <mat-form-field appearance="outline" class="search-field">
     <mat-label>Search for a mission...</mat-label>
-    <input matInput type="text" [(ngModel)]="searchTerm" (ngModelChange)="searchTerm.set($event)"
-      placeholder="Ex. Crew-1" />
+    <input matInput type="text" [formControl]="searchControl" placeholder="Ex. Crew-1" />
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
 
-
   <div class="launches-grid">
-    <mat-card *ngFor="let launch of filteredLaunches()" class="launch-card" [routerLink]="['/launch', launch.id]"
-      style="cursor: pointer;">
+    <mat-card *ngFor="let launch of filteredLaunches()" class="launch-card" [routerLink]="['/launch', launch.id]">
       <mat-card-header>
         <img mat-card-avatar [src]="launch.links?.patch?.small" alt="Mission's patch">
         <mat-card-title>{{ launch.name }}</mat-card-title>

@@ -4,36 +4,66 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); // Google Font
+
+// ─── Design Tokens Globais ───
+:root {
+  --sx-bg-primary: #0b0e17;
+  --sx-bg-card: #131829;
+  --sx-bg-card-hover: #1a2038;
+  --sx-accent: #7c5cfc;
+  --sx-accent-glow: rgba(124, 92, 252, 0.35);
+  --sx-text-primary: #e8eaf6;
+  --sx-text-secondary: #8892b0;
+  --sx-success: #4caf50;
+  --sx-error: #ef5350;
+  --sx-border: rgba(255, 255, 255, 0.06);
+  --sx-radius: 16px;
+  --sx-font: 'Inter', sans-serif;
+}
+
 
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+  @include mat.theme((color: (primary: mat.$violet-palette,
+        tertiary: mat.$cyan-palette,
       ),
-      typography: Roboto,
+      typography: Inter,
       density: 0,
-    )
-  );
+    ));
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
+  color-scheme: dark;
+  background: var(--sx-bg-primary);
+  color: var(--sx-text-primary);
+  font-family: var(--sx-font);
   margin: 0;
   height: 100%;
+  -webkit-font-smoothing: antialiased;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sx-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sx-accent);
+  border-radius: 4px;
+}
+
+.status-success {
+  background-color: rgba(76, 175, 80, 0.15) !important;
+  color: var(--sx-success) !important;
+}
+
+.status-error {
+  background-color: rgba(239, 83, 80, 0.15) !important;
+  color: var(--sx-error) !important;
+}
+
 /* You can add global styles to this file, and also import other style files */
