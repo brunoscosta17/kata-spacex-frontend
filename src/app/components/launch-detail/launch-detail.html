@@ -1,0 +1,106 @@
+<div class="detail-container">
+
+    <div class="detail-header">
+        <button mat-button (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Back to Missions
+        </button>
+    </div>
+
+    @if (launch(); as l) {
+
+    <mat-card class="detail-card">
+        <mat-card-header>
+
+            @if (l.links?.patch?.large) {
+            <img mat-card-avatar [src]="l.links!.patch!.large" alt="Mission patch" class="mission-patch-large">
+            }
+
+            <mat-card-title>{{ l.name }}</mat-card-title>
+            <mat-card-subtitle>Flight n° {{ l.flight_number }}</mat-card-subtitle>
+
+            <button mat-icon-button color="warn" class="favorite-btn" (click)="toggleFavorite()">
+                <mat-icon>{{ isFavorite() ? 'star' : 'star_border' }}</mat-icon>
+            </button>
+
+        </mat-card-header>
+
+        <mat-card-content class="detail-content">
+
+            <div class="status-row">
+                <mat-chip [class.status-success]="l.success" [class.status-error]="!l.success">
+                    {{ l.success ? '✓ Mission Success' : '✗ Mission Failure' }}
+                </mat-chip>
+                <span class="date-info">
+                    <mat-icon>calendar_today</mat-icon>
+                    {{ l.date_local | date:'dd/MM/yyyy' }}
+                </span>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <span class="spec-label">Rocket ID</span>
+                    <span class="spec-value">{{ l.rocket || 'N/A' }}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Upcoming</span>
+                    <span class="spec-value">{{ l.upcoming ? 'Yes' : 'No' }}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">UTC Date</span>
+                    <span class="spec-value">{{ l.date_utc | date:'medium' }}</span>
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            @if (l.details) {
+            <div class="mission-details">
+                <h3>Mission Details</h3>
+                <p>{{ l.details }}</p>
+            </div>
+            }
+
+            <div class="external-links">
+                @if (l.links?.webcast) {
+                <a mat-stroked-button [href]="l.links!.webcast" target="_blank" rel="noopener">
+                    <mat-icon>play_circle</mat-icon> Watch Webcast
+                </a>
+                }
+                @if (l.links?.wikipedia) {
+                <a mat-stroked-button [href]="l.links!.wikipedia" target="_blank" rel="noopener">
+                    <mat-icon>open_in_new</mat-icon> Wikipedia
+                </a>
+                }
+                @if (l.links?.article) {
+                <a mat-stroked-button [href]="l.links!.article" target="_blank" rel="noopener">
+                    <mat-icon>article</mat-icon> Press Article
+                </a>
+                }
+            </div>
+
+            @if (l.links?.flickr?.original && l.links!.flickr!.original.length > 0) {
+            <div class="flickr-gallery">
+                <h3>Mission Gallery</h3>
+                <div class="gallery-grid">
+                    @for (photo of l.links!.flickr!.original; track photo) {
+                    <img [src]="photo" [alt]="l.name + ' photo'" class="gallery-img">
+                    }
+                </div>
+            </div>
+            }
+
+        </mat-card-content>
+    </mat-card>
+
+    } @else {
+    <div class="loading-state">
+        <mat-icon>rocket_launch</mat-icon>
+        <p>Loading mission data... or navigate back to the list first.</p>
+        <button mat-flat-button color="primary" (click)="goBack()">Go to Missions List</button>
+    </div>
+    }
+
+</div>

@@ -11,7 +11,8 @@
 
 
   <div class="launches-grid">
-    <mat-card *ngFor="let launch of filteredLaunches()" class="launch-card">
+    <mat-card *ngFor="let launch of filteredLaunches()" class="launch-card" [routerLink]="['/launch', launch.id]"
+      style="cursor: pointer;">
       <mat-card-header>
         <img mat-card-avatar [src]="launch.links?.patch?.small" alt="Mission's patch">
         <mat-card-title>{{ launch.name }}</mat-card-title>
