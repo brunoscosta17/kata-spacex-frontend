@@ -1,6 +1,5 @@
 <div class="detail-container">
 
-  <!-- Botão de Voltar -->
   <div class="detail-header">
     <button mat-button (click)="goBack()" class="back-btn">
       <mat-icon>arrow_back</mat-icon>
@@ -8,19 +7,16 @@
     </button>
   </div>
 
-  <!-- Guarda de segurança: só renderiza se o lançamento existir na store -->
   @if (launch(); as l) {
 
     <mat-card class="detail-card">
       
-      <!-- Top Space Banner Estilizado -->
       <div class="detail-hero-banner">
         <div class="banner-gradient"></div>
       </div>
 
       <div class="detail-layout-grid">
         
-        <!-- COLUNA DA ESQUERDA: Identidade e Links Rápidos -->
         <div class="column-left">
           <div class="patch-container">
             @if (l.links?.patch?.large) {
@@ -51,14 +47,13 @@
             </span>
           </div>
 
-          <!-- Links de Ação Rápida -->
           @if (l.links?.webcast || l.links?.wikipedia || l.links?.article) {
             <div class="quick-links-card">
               <h3>Quick Actions</h3>
               <div class="links-list">
                 @if (l.links?.webcast) {
                   <a mat-stroked-button [href]="l.links!.webcast" target="_blank" rel="noopener" class="action-link-btn">
-                    <mat-icon>play_circle</mat-icon> Watch Webcast
+                     <mat-icon>play_circle</mat-icon> Watch Webcast
                   </a>
                 }
                 @if (l.links?.wikipedia) {
@@ -76,10 +71,8 @@
           }
         </div>
 
-        <!-- COLUNA DA DIREITA: Informações Técnicas e Descrição -->
         <div class="column-right">
           
-          <!-- Grid de Especificações -->
           <div class="section-container">
             <h2 class="section-title"><mat-icon>tune</mat-icon> Technical Specifications</h2>
             <div class="specs-grid">
@@ -102,7 +95,6 @@
             </div>
           </div>
 
-          <!-- Detalhes da Missão -->
           @if (l.details) {
             <div class="section-container">
               <h2 class="section-title"><mat-icon>description</mat-icon> Mission Telemetry Details</h2>
@@ -119,7 +111,6 @@
             </div>
           }
 
-          <!-- Flickr Gallery -->
           <div class="section-container">
             <h2 class="section-title"><mat-icon>photo_library</mat-icon> Flight Photography</h2>
             
@@ -145,7 +136,6 @@
     </mat-card>
 
   } @else {
-    <!-- Estado de carregamento se o usuário acessar a URL diretamente -->
     <div class="loading-state">
       <mat-icon>rocket_launch</mat-icon>
       <h3>Loading Flight Data</h3>

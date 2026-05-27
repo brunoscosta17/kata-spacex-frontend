@@ -12,7 +12,6 @@
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <!-- Barra de Filtros Customizada Cósmica -->
     <div class="filter-chips">
       <button mat-flat-button class="filter-chip" [class.active]="filterType() === 'all'" (click)="setFilter('all')">
         <mat-icon>rocket_launch</mat-icon> All Missions
@@ -29,7 +28,6 @@
     </div>
   </div>
 
-  <!-- Estado Vazio Amigável -->
   @if (filteredLaunches().length === 0) {
     <div class="empty-state">
       <mat-icon>search_off</mat-icon>

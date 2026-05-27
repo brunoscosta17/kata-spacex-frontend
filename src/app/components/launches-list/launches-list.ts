@@ -35,8 +35,6 @@ export class LaunchesListComponent implements OnInit {
 
   filteredLaunches = computed(() => {
     let launches = this.allLaunches();
-    
-    // 1. Filtragem por categoria
     const currentFilter = this.filterType();
     if (currentFilter === 'favorites') {
       const favs = this.favoriteIds();
@@ -47,7 +45,6 @@ export class LaunchesListComponent implements OnInit {
       launches = launches.filter(l => l.success === false);
     }
 
-    // 2. Filtragem por busca de texto
     const search = this.searchTerm().toLowerCase().trim();
     if (!search) return launches;
     return launches.filter(launch => launch.name.toLowerCase().includes(search));

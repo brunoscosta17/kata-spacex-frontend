@@ -1,12 +1,6 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); // Google Font
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-// ─── Design Tokens Globais ───
 :root {
   --sx-bg-primary: #0b0e17;
   --sx-bg-card: #131829;
@@ -65,5 +59,3 @@ body {
   background-color: rgba(239, 83, 80, 0.15) !important;
   color: var(--sx-error) !important;
 }
-
-/* You can add global styles to this file, and also import other style files */

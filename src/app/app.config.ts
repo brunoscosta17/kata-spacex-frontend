@@ -15,7 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
 
-    // Registramos o metaReducer aqui para que ele intercepte todas as actions
     provideStore({ launch: launchReducer }, { metaReducers }),
 
     provideEffects([LaunchEffects]),
