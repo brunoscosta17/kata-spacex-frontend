@@ -28,11 +28,62 @@ The application uses **Angular Material** for the UI and **NgRx** for global sta
 - **TypeScript Rigor:** Explicit interface definitions for API payloads. The use of `any` is strictly prohibited.
 - **Git Hygiene:** Clean, atomic, and descriptive commit history.
 
-## Bonus
-- Setup a docker production ready for this app
+## 🚀 How to Run the Project
 
-## 📦 Submission Guidelines
-1. Push your code to a public GitHub repository.
-2. Ensure your `README.md` includes straightforward instructions to install and run the project locally 
+### Requirements
+- **Node.js**: v20 or higher
+- **Docker**: For production containerization
 
-Good luck! We look forward to reviewing your code.
+### 1. Local Development (Angular CLI)
+
+#### Install Dependencies:
+```bash
+npm install
+```
+
+#### Run the Dev Server:
+```bash
+npm start
+```
+The application will be available locally at `http://localhost:4200/`.
+
+#### Run Unit Tests (Vitest):
+```bash
+npm test
+```
+
+#### Build for Production:
+```bash
+npm run build
+```
+
+---
+
+### 2. Production Deployment (Docker Multi-stage)
+
+We have configured a production-ready, highly optimized multi-stage `Dockerfile` served via Nginx with HTML5 client-side routing fallback.
+
+#### Build the Docker Image:
+```bash
+docker build -t spacex-explorer .
+```
+
+#### Run the Docker Container:
+```bash
+docker run -d -p 8080:80 spacex-explorer
+```
+The application will be served instantly at `http://localhost:8080/`.
+
+---
+
+## 📘 Comprehensive Architecture & Bug Fixes Report
+
+We created a detailed technical report specifically for the reviewer outlining:
+- **NgRx Architecture & Memoized Selectors**: In-depth explanation of the state model.
+- **Memory Leak Resolution**: Implementation of reactive patterns with the `async` pipe.
+- **Permanent LocalStorage Favorites**: How the favorite state is synchronized and persisted.
+- **TypeScript Strict Typing**: Elimination of all `any` occurrences.
+- **Angular 21 & Class Fields Fix**: Technical analysis of the effects injection order issue resolved using `inject()`.
+
+You can view the full documentation in your workspace at:
+👉 **[SPACE_X_EXPLORER_REPORT.md](SPACE_X_EXPLORER_REPORT.md)**
